@@ -36,8 +36,8 @@ int ndigit(int number)
 
 void clear_input_buffer(void)
 {
-	int c;
-	while ((c = getchar()) != '\n' && c != 'EOF');
+	int ch;
+	while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
 void put_start(void)
