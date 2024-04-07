@@ -314,3 +314,5 @@ Multiple inclusion guard
 #pragma pack(1) -> alignment saðlýyor.
 #pragma warning (disable: 4706)   4706 nolu uyarý mesajýný verme demek bu.
 
+//////////////////////////////////////////////////////////////////////////
+
