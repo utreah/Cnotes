@@ -1,5 +1,5 @@
 GOTO STATEMENT / type-conversions
-
+// ÝÞARETLÝ, ÝÞARETSÝZ dönüþümleri mülakatlarda sorulabiliyor!!
 
 // Programýn akýþý baþka bir yerdeki, baþka bir bellek alanýndaki iþleme yönlendirilmesine "jump" denir.
 
@@ -154,8 +154,9 @@ int main(void)
 
 /****************************************************************************************/
 
-USUAL ARITHMETIC CONVERSIONS(örtülü dönüþüm senaryosu)
-Atama veya initilization kýsmýnda yapýlan dönüþümler(örtülü dönüþüm senaryosu)
+//1-) USUAL ARITHMETIC CONVERSIONS(örtülü dönüþüm senaryosu) Derleyici dilin kurallarý gereði sormadan bazý durumlarda iþlemleri yapmak için
+// türdönüþümü yapýyor.Buna implicit type conversion deniyor.Örtülü yada otomotik tür dönüþümü.
+//2-) Atama veya initilization kýsmýnda yapýlan dönüþümler(örtülü dönüþüm senaryosu)
 
 /****************************************************************************************/
 
@@ -233,3 +234,77 @@ Eðer operandlarýn rankleri farklý ise yüksek rank iþaretsiz ise iþlem yüksek ola
 //							bu durumda unsigned long a dönüþür.
 
 /****************************************************************************************/
+
+int main(void)
+{
+	int ival = 10;
+
+	ival / 3; // böyle olursa sol operand int sað int olduðu için sonuç 3 olur yani int.
+	ival / 3.; // böyle olursa sol operand int, sað double olduðu için type-conversiondan dolayý sonuç double olur(ranký daha yüksek) ve sonuç 3.333333333 olur.
+}
+
+// hatalar
+//  double dval =  10/3   -> burasý 3.0000 olur 3.33 deðil 
+//  ama
+//  doðrusu
+//  double dval = 10 / 3.	 -> burasý iþte doðru 3.3333 çýkar.-
+
+/****************************************************************************************/
+
+int x = 5;
+			ÖNEMLÝ!			op  op
+double dval = 10 / (x > 2 ? 3 : 3.); //Ýfadelerin türleri derleme zamanýnda belli oluyor. // çýktý 3.33333
+									//Burada ternary ilk operandýn doðru ya da yanlýþ olmasýnýyla ilgili deðil. Tür dönüþümü 2. ve 3. operandýn arasýnda oluyor. "3 + 3." gibi düþün sonuç double olurdu.
+
+
+// Ýfadelerin türleri runtimeda belli olmaz. Compile timeda belli olur. Operandlar arasýnda tür dönüþümleri olur.
+				NOT
+				//	Ýþaretsiz bir pozitif deðer ile iþaretli bir negatif deðer ile iþleme sokulursa, sign x deðerini unsigned x e çevirecek. 
+				//	
+				//	int x = -1  // 1111 1111 1111 1111 -> bunun deðeri -1
+				//	
+				//	bunu iþaretsiz int e dönüþtürünce  -> artýk baþtaki 1, iþaret biti olmuyor çünkü unsigned zaten
+				//	dolayýsý ile 1111 1111 1111 1111 bunun unsigned deðeri alýnýr o da 4.2 milyar küsür.
+				//	
+				//	unsigned int y = 1 
+				//	if y > x   printf(dogru) //yukarýda artýk x = 4.2 milyar küsür oldu. 1 > 4.2 false olur. bu sebeple false
+				//	else printf(yanlis)  
+				//	
+				//	sonucu yanlistir.
+				//
+				//	Ayrýca signed türün ve unsigned türünün kýyaslanmasý warning mesajý olarak ta çýkar
+				//	signed/unsigned mismatch. bu hatalarý mutlaka incelemek lazým.
+				//
+				//
+				// -------------------------------------------------------------------------------------------------------------
+				//    assignment/init ATAMA DÖNÜÞÜMLERÝ
+
+				T x = expr; // T = Tür, x = identifier, expr = expression; x'in türüne göre ifadenin türü x'in türüne atanýr ve expr x'e atanýr.
+				y = expr; // expr'in türü y'nin türüne dönüþtürülür ve expr y deðiþkenine atanýr.
+				void func(T x); // argüman parametrenin türüne dönüþtürülür. Mesela parametre double argüman int ise argüman doublea dönüþtürülür.
+				func(x); //func in parametresi int olsun, argüman ise double olsun.argüman gönderirken int e çevirir.
+				return y; // y'nin türü return statement'ýn türüne dönüþtürülür. 
+
+				KURAL!!
+				// - Tür dönüþümü her zaman atamanýn yapýldýðý kopyalamanýn yapýldýðý türe göre yapýlýr.
+				örn: int x = expr; // burada ifade ne olursa olsun expr int'e dönüþtürülecek. 
+				dezavantajý:
+
+/****************************************************************************************/
+				//	 büyük tam sayý türünden düþük tam sayý türüne geçiþ olurken veri kaybýna neden olabilir.!
+				// bu iþlem explicit olarak yapýlmalý veri kaybýný önlemek için.
+				//	char c; [-128 / 127] aralýðýný tutar
+//	int ival = 987;
+//	c = i;    char 987 tutamayacaðý için veri kaybý olur.
+//	printf("%d",c); --> -37 çýkar. char 1 byte yani 3DB'den 3 olmayacak. DB = 1101 1011 -> bu da iþaretli char türden negatif bir deðer (MSB 1 olduðu için)
+				// hesaplarken 2ye tümleyeni alýyorsun 0010 0101 -> 37 -> -37'dir. 
+				//	Warningde de conversion from int to char possible loss of data verir.
+//	Bu kod yanlýþ kabul edilir.
+//	eðer bilerek yapýldýysa:
+//	burada type-casting yapýlmalý.
+//
+
+/****************************************************************************************/
+
+
+
