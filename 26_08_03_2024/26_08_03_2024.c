@@ -202,3 +202,4 @@ int main(void)
 
 // odev adli resime baq
 // reverse algorithm
+// void sort_array(int* p, int size) bunu  nUtility ekle
