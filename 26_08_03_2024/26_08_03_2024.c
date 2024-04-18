@@ -123,12 +123,82 @@ int main(void)
 }
 
 
+#undef	 SIZE
+#define		SIZE	 10
+
+	a[SIZE];
+	int b[SIZE];
+	int merged[2 * SIZE];
+
+	// randomize çalýþtýrýldý en yukarýda zaten.gerek yok.
+	set_random_array(a, SIZE);
+	set_random_array(b, SIZE);
+	sort_array(a, SIZE);
+	sort_array(b, SIZE);
+
+	print_array(a, SIZE);
+	print_array(b, SIZE);
+
+	
+	// iki arrayi C arrayinde sýralý bir þekilde birleþtirmek istiyoruz.
+	int idx_a = 0;
+	int idx_b = 0;
+
+	for (int i = 0; i < 2 * SIZE; i++)
+	{
+		if (idx_a == SIZE)
+			merged[i] = b[idx_b++];
+
+		else if (idx_b == SIZE)
+			merged[i] = a[idx_a++];
+
+		else if (a[idx_a] < b[idx_b])
+			merged[i] = a[idx_a++];
+
+		else
+			merged[i] = b[idx_b++];
+	}
+
+	print_array(merged, 2 * SIZE);
 
 
+	//------------------------------------
+	//------------------------------------
+
+	printf("\n");
+	
+	int r[10] = { 5,3,2,5,6,7,1,9,7,8 };
+
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%d ", i[a]);  // bu legal.Pointerlarda görülecek.a[i] ile i[a] arasýnda fark yok.
+	}
+
+	return 0;
+}
 
 
+// ÇOK ÖNEMLÝ
+	int c[] = { 4,6,2,6,1,5,9,7,8 };
 
+	/*
+	for (int i = -2; i < asize(c) - 2; i++) // burada asize unsigned int. karþýlaþtýrýlmýþ. i de type casting iþlemine sokulur.
+		printf("%d ", c[i+2]);				// -2 olduðu için unsigned int e çevrilince deðeri 4.2 milyar küsür olur.döngüye girmez.
+	*/									
 
+	int c1[asize(c) * 2] = {0};  // diðer dizinin boyutuna göre yapýlandýrýlabilir.
+	int c2[asize(c) * 3 / 2] = {0};
 
+	x = 5;
+	int y = 5;
+	printf("%d", sizeof ++x + ++y); // int olduðu için 4. iþleme sokulmadý ++. ikincideise sokulur. 4+6 = 10
 
+	putline();
+	printf("\n");
 
+	//============================================================
+	//============================================================
+	//============================================================
+
+// odev adli resime baq
+// reverse algorithm
