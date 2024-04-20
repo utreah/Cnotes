@@ -1,8 +1,10 @@
 // code file / implementation file
-#include "nutility.h"
+#include "C:\Users\Liver\Documents\GitHub\Cnotes\nUtility.h"
 #include <Windows.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>	
+#define _CRT_SECURE_NO_WARNINGS
 
 // bu modül bir hizmet veriyor ama verirkende ayný zamanda stdio.h tan ve windows.h tan hizmet alýyor.
 // include edilme sýrasý, ilgili nesnelerin kullaným sýrasý ile alakalý.
@@ -14,7 +16,7 @@
 ve kullanamazdýk.
 */
 #define ASIZE(a) (sizeof(a) / sizeof(a[0]))
-#define RANDOMIZE() srand((unsigned)time(NULL))
+// #define RANDOMIZE() srand((unsigned)time(NULL))
 #define RANDOM_DICE() (rand() % 6 + 1)
 int isprime(int number)
 {
@@ -31,7 +33,10 @@ int isprime(int number)
 	}
 	return 1;
 }
-
+void randomize()
+{
+	srand((unsigned)time(0));
+}
 int ndigit(int number)
 {
 	int digit_count = 0;
@@ -103,8 +108,28 @@ void print_array(const int* p, int size)
 	for (int i = 0; i < size; i++)
 	{
 		if (i && i % 20 == 20)
-			printf("\n");
-		printf("%3d ", p[i]);
+			printf(" \n");
+		printf(" %3d", p[i]);
 	}
-	printf("|-------------------------------------------|");
+	printf("\n|-------------------------------------------|\n");
+}
+
+
+int* create_array(int n) // kursun ikinci yarýsýnda öðrenilecek
+{
+	int* pd = (int*)malloc(n * sizeof(int));
+	if (!pd) {
+		printf("bellek yetersiz\n");
+		exit(EXIT_FAILURE);
+	}
+	return pd;
+
+}
+void sort_array(int* p, int size)
+{
+	qsort(p, size, sizeof(*p), icmp);
+}
+int icmp(const void* vp1, const void* vp2)
+{
+	return *(const int*)vp1 - *(const int*)vp2;
 }
