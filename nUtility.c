@@ -133,3 +133,12 @@ int icmp(const void* vp1, const void* vp2)
 {
 	return *(const int*)vp1 - *(const int*)vp2;
 }
+void sgets(char* p)
+{
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF)
+		*p++ = c;
+
+	*p = '\0';
+
+}

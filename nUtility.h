@@ -13,4 +13,5 @@ int* create_array(int n);
 void randomize();
 void sort_array(int* p, int size);
 int icmp(const void* vp1, const void* vp2);
+void sgets(char* p);
 #endif
