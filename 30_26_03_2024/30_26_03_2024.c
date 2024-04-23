@@ -145,7 +145,7 @@ int main(void)
 			// hem p2 hem p1 x'in adresini gösteriyor.
 	/*
 	&x -> x'in adresi
-	p1 x'in adresi (line 143'ten sonra y'de x'in adresi)
+	p1 x'in adresi (line 144'te p2 deðiþkeni de x'in adresi)
 	p2 y'nin adresi
 	&p1 -> p1	 deðiþkeninin adresi.
 
@@ -157,6 +157,135 @@ int main(void)
 Pointer = iþaret eden
 Pointee = iþaret edilen.
 
-1:30:00'dan sonra izle
+	NOT:
+	C/C++ ta hayata gelmiþ nesnelerin adreslerinin deðiþmesi gibi bir kavram yok.
+
+Birden fazla pointer deðiþkeninin deðeri(gösterdikleri adres) ayný olabilir.
+
+addressof(&) operatörü ile oluþturulan ifadeler her zaman r-value expressiondur.
+&(&x) ==> gibi adresinin adresi diye bir ifade yok! YANLIÞ. -> SENTAKS HATASI 
+		çünkü	&x l-value iken &&x saðdan sola iþlem yaptýðýnda &x rvalue olduðu için tekrar address of kullanýldýðýnda SENTAKS HATASI.
+
+microiþlemcilerde adresler sözkonusu olunca adresler 16lýk sayý sisteminde
+ifade ediliyor. C dilinde de böyle.
+
+
 */
 
+int main(void) {
+	int x = 10, * p1 = &x, * p2 = p1; // hiçbir hata yok p1 ve p2 x'in adresini tutar alttaki bildirimle ayný anlamda.
+	// int x = 10;
+	// int* p1 = &x;
+	// int* p2 = p1;
+
+
+}
+/*
+NOT:
+bir dizinin ismi kullanýldýðýnda, 2 case dýþýnda bu isim dizinin ilk elemanýnýn
+adresine dönüþtürülüyor.Buna array decay veya array to pointer conversion denir.
+
+yani a ile& a[0] ifadesi ayný þey
+
+printf("a  = %p", a); // aþaðýdaki ile ayný
+printf("&a[0]  = %p", &a[0]);
+
+Array decay'den dolayý dizi isimleri lvalue olarak kullanýlamaz.
+int b[5] = { 0 };
+a = 0; // bu yanlýþ çünkü a burada aslýnda &a[0] olarak gözüküyor ve & operatörü yüzünden rvalue oluyor.
+int* p = a; // aslýnda ==> int* p = &a[0]; ile aynu anlamda.
+p = b; // aslýnda ==> p = &b[0];
+ 
+Mülakat sorusu
+a nýn array decay olarak kullanýlmadýðý bir yer var
+sizeof içinde kullanýldýðýnda array decay olarak iþlem görmüyor
+
+printf("sizeof(a) = %zu", sizeof(a)); // bu dizinin tamamýnýn tuttuðu alaný verir
+printf("sizeof(&a[0]) = %zu", sizeof(&a[0])); //burasý ise sadece ilk elemanýn tuttuðu alan.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	------------------------------
+	Özet kullanýmlar (þimdilik)
+	int x = 10;
+	int a[10];
+
+	int *p = &x;
+	int *q = p;
+	int *pa = a;
+
+	----------------------------
+	Aþaðýdaki kafa karýþtýrabilir ama geçerli
+
+	int x = 10,*p = &x,a[]= {1,3,5},*q = a;
+	int x = 10, a[5] = { 0 }, *p1 = &x, *p2 = a, *p3 = p1;
+
+	-----------------------------
+
+	int a[] = {5,3,7};
+	int *ptr = a;
+
+	hepsi ayný çýktýyý verir
+	printf("a   = %p\n",a);
+	printf("&a[0]   = %p\n",&a[0]);
+	printf("ptr   = %p\n",ptr);
+
+	-----------------------------
+
+*/
+int main(void)
+{
+	int a[5] = { 0 };
+	int* ptr;
+
+	ptr = a; // bunda sýkýnýt yok ==> ptr = &a[0];
+	a = ptr; // bu yanlýþ çünkü a burada ==> &a[0] olduðu için lvalue olamaz.
+
+	// &a; // bunda array decay yok. Bir dizi ismi addressof operatörünün operandý olduðunda array decay UYGULANMAZ.
+	// yukarýdaki durumda a bir dizi ismi olmasýna karþýn ve a ismi bir ifade içinde kullanýlmasýna karþýn array decay kullanýlmaz.
+
+	// sizeof a ==> burada array decay yok!
+	// &a ==> burada da array decay yok!
+
+}
+									/* Dereferencing / Indirection Operator.Ýçerik Operatörü */
+/*
+	-operatör öncelik sýrasýnda 2. sýra da ve soldan saða.
+	-Unary prefix olarak kullanýlýrsa dereferencing olarak adlandýrýlýr.
+	-Binary infix olarak kullanýlýrsa multiplication(çarpma) operatörü olur.
+	// int* ptr; buradaki yýldýz bir OPERATÖR DEÐÝL.
+	-Dereferencing operatörünün operandý adres olmak zorunda. Olmaz ise SENTAKS HATASI.
+	-Dereferencing operatörü operandý olan adresteki nesneye eriþim saðlar. 
+		// yani *adres demek bu adresteki nesne demek. Bu sayede oradaki deðere eriþebiliriz.
+	Dereferencing operatörünün operandý address ifadesi olmak zorunda
+	aksi takdirde compile time da sentaks hatasý olur.
+
+	int x = 10;
+	int *ptr = &x;
+	int a[] = {1,4,5,6,7}
+
+	// *234 hatalý
+	// *x hatalý
+	// *&x çalýþýr
+	// *ptr çalýþýr
+	// *a çalýþýr.
+
+
+*/
+int main(void)
+{
+	int a[5] = { 0 };
+	// *a yazdýðýmýzda derleyici *&a[0] olarak görüyor. &a[0] kýsmý öncelikli yapýlýr daha sonra dereferencing yapýlýr.
+	*&a = 45; // bu ifade geçerli. öncelk sýrasýnda saðdan sola doðru gidilir
+	/*
+	* 
+	çünkü 2. öncelik sýrasýnda.x in adresinin dereference deðeri kendisidir.
+	yani aslýnda
+	x = 45 ile ayný.
+
+	hatta
+	++ * &*&*&*&*&*&x; bu bile geçerli. :D
+	*/
+
+
+}
