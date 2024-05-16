@@ -14,4 +14,9 @@ void randomize();
 void sort_array(int* p, int size);
 int icmp(const void* vp1, const void* vp2);
 void sgets(char* p);
+void swap(int* a, int* b);
+void reverseArray(int* p, int size);
+int* get_array_max(const int* p, int size);
+int* get_array_min(const int* p, int size);
+void selection_sort(int* p, int size);
 #endif

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <time.h>	
 #define _CRT_SECURE_NO_WARNINGS
-
+#define SIZE 10
 // bu modül bir hizmet veriyor ama verirkende ayný zamanda stdio.h tan ve windows.h tan hizmet alýyor.
 // include edilme sýrasý, ilgili nesnelerin kullaným sýrasý ile alakalý.
 //nUtility.h bu dosyaya'da include edildi çünkü
@@ -142,3 +142,51 @@ void sgets(char* p)
 	*p = '\0';
 
 }
+
+void swap(int* a, int* b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void reverseArray(int* p, int size)
+{
+	int* pe = p + size;
+
+	while (p < pe)
+		swap(p++, pe--);
+	
+}
+int* get_array_min(const int* p, int size)
+{
+	const int* pmin = p;
+	for (int i = 0; i < size; i++)
+	{
+		if (*pmin > *(p + i))
+			pmin = (p + i); // veya pmin = &p[i];
+	}
+
+	return (int*)pmin; // bu casting daha sonra açýklanacak.
+}
+
+int* get_array_max(const int* p, int size)
+{
+	const int* pmax = p;
+
+	while (size--) // (p++, size--) þeklinde de yazýlabilir. 
+	{
+		if (*pmax < *p)
+			pmax = p;
+		p++;
+	}
+	return (int*)pmax; // buradaki cast daha sonra anlatýlacakmýþ.
+}
+
+void selection_sort(int* p, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		swap(get_array_min(p + i, size - i), p + i);
+	}
+} 
