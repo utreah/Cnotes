@@ -3,7 +3,8 @@
 #include <Windows.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>	
+#include <time.h>
+#include <stdio.h> 
 #define _CRT_SECURE_NO_WARNINGS
 #define SIZE 10
 // bu modül bir hizmet veriyor ama verirkende ayný zamanda stdio.h tan ve windows.h tan hizmet alýyor.
