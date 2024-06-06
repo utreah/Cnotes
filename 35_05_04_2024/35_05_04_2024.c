@@ -137,8 +137,126 @@ int main(void) {
 			// a)	ya bana bir nesne adresi göndereceksin
 			// b)	ya da bana NULL pointer göndereceksin.
 		// DÝKKAT: Bir fonksiyonun parametresi pointer ise dokümantasyonda kesinlikle NULL pointer alýp alamayacaðýný BELÝRT.
+			// NULL pointer alýyor ise nasýl çalýþacaðýnýn da belirtilmesi gerekir.
+/*
+* 		Bazý fonksiyonlarýn bildirimi
 
-1:10
+		time_t time(time_t *ptr) -> time_t bir tür eþ ismi.
+
+		ya bir nesne adresi istiyor set etmek için
+		ya da NULL pointer istiyor. bu tip örnekler var.
+		NULL göndermek opsiyon ise dökümantasyonda yazar.
+
+		fflush(FILE *)  ->  bu bir nesnenin adresini istiyor ve iliþkili 
+		dosyanýn bufferýný flush ediyor.Yani bellekteki byte larý dosyaya 
+		yazýyor.
+
+		swap(&x, NULL); // swap fonksiyonunda gönderilen adreslerin içeriðine eriþildiði için NULL pointerin içeriðine eriþmek
+			tanýmsýz davranýþ oluþturur.
+		
+		Statik deðiþkenli bir adres döndüren fonksiyondaki deðeri kullanmadan ayný fonksiyonu tekrar çaðýrmamalýyýz. Çünkü statik ömürlü
+			deðiþkenler program sonuna kadar hayatta kaldýðý için durmadan ayný deðer döndürülür.
+
+		NULL bayrak deðiþken gibide kullanýlabilir.
+			int *ptr = NULL;
+			if(expr)
+			{
+				ptr = nesne adresi  // if e girerse ptr deðeri deðiþir.
+			}
+
+
+			int *ptr = NULL;
+			//dangling pointer -> dangling pointer gerçek bir pointer deðil.
+
+			// ptr geçerli
+
+			// hayatý sona erdi
+
+			burada *ptr = ...  UB olur mesela.
+
+			burada dangling hale gelmþ pointer a NULL deðerini atamak mesela bir kullaným
+			þeklidir.
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+												TÜR EÞ ÝSÝM BÝLDÝRÝMLERÝ(TYPE-DEF DECLARATIONS)
+	-Hali hazýrda bulunan bir türe o türü temsil edecek eþ bir isim vermek.
+		alias -> takma ad(mahlas)
+		type-alias -> tür takma adý - tür eþ ismi
+	-define preprocessor komutu ile karýþtýrma.
+		ön iþlemci komutlarý o kelime ile yer deðiþtirir.
+			#define WORD int -> bu WORD gördüðü int yazar. Bazý durumlarda ayný iþi yapýyor olabilirler ama
+				type-alias ise WORD için isim bildirimi yapar.
+
+	-TYPE-DEF bildirim nasýl yapýlýr?
+		keyword tür-ismi türe-verilen-eþ-ismi -> typedef int WORD; 
+			Artýk WORD int'in eþ ismi olarak davranýlacak. 
+	-typedef statik veya global deðil. Nerede/nasýl declare edildiðine göre deðiþir. Eðer statik ise her yeri, dynamic ise bulunduðu
+		kod bloðunu etkiler sadece.
+
+	-typedef int* IPTR;
+		IPTR == int*; // IPTR aslýnda int*
+		#define iptr int*
+		int main(void){
+			typedef int* IPTR;
+			IPTR x, y, z; // Bu aslýnda int* x; int* y; int* z; bildirimine eþ deðer. 
+			iptr p1, p2, p3; // Burada ise sadece p1 int* türündendir. iptr yerine int* yapýþtýrma iþlemi yapýlýr(define makrosu) ve sadece p1 int* olur.
+		}
+	- ALTIN KURAL!!!!
+		1 -  O türden bir deðiþken tanýmla:
+			int x; // gibi
+		2 - Tanýmlamanýn baþýna typedef keywordünü getir.
+			typedef int x;
+		3 - Deðiþken ismini tür eþ ismi olarak deðiþtir.
+			typedef int Word;
+		ÖRNEK:
+		int a[10];
+			typedef int a[10];
+				typedef int ARR[10]:
+					Artýk ARR yazýldýðýnda boyutu 10 olan diziler oluþturulabilecek.
+						typedef int ARR[10];
+						ARR a,b,c; // bu int a[10], b[10], c[10];
+	-Bir tür eþ isminin bir keyword olarak cast edilmesi, o keywordün kullanýlmasýný engellemez.
+		typedef int counter;
+		counter x;
+		int y; // int kullanýlmaya devam edilebilir.
+	-Bu kullanýmda da bir sýkýntý yok -> typedef int INT32, counter; // tamamen legal.
+
+	-ÇOK ÖNEMLÝ!
+		typedef int* IPTR;
+		typedef const int* CIPTR;
+		int main(void){
+			int x = 5;
+			int y = 10;
+			const IPTR p = &x; // Bu düþünülenin aksýna pointer to const int deðil const pointer to int yani
+								// const int* ptr -> buna sadece read-only eriþebilirken, const IPTR p -> bunun içeriði deðiþtirilebilir
+									// gösterdiði adres deðiþtirilemez. YANÝ TAM TERSÝ. ÖNEMLÝ!
+			CIPTR p2 = &x; // Bu legal
+			*p2 = 31; // Deðer atamak illegal çünkü CIPTR pointer to const int yani read-only olarak iþ yapýyor.
+			const CIPTR p3 = &x; // Bu const pointer to const int, Yani ne deðeri deðiþtirilebilir ne de gösterdiði adres.
+									// CIPTR'den önceki const p3 identifierýný niteler. CIPTR kendisi const int* olduðu için sadece salt okunur olur
+										// ilk const'ta p3'ü niteleyerek deðiþkeni const yapar. Yani p3 deðiþkenine hiçbir atama yapýlamaz, illegaldir.
+			*p3 = 52; // illegal
+			p3 = &y; // illegal
+			typedef const int carr[6];
+			carr a; // -> const int a[6];
+		}
+
+	-ÖNEMLÝ	Mülakat sorusu bu.
+		typedef int Word,*Ptr;
+		typedef int word; ve typedef int *Ptr; ile ayný
+
+	-C99'da _Bool eklennee kadar bool türü olarak geleneksel olarak int kullanýlýyordu.
+		#define true 1
+		#define false 0
+		typedef int BOOL;
+		typedef int counter;
+		int main(void){
+			BOOL x = true;
+			counter y; // diyelim ki counter(int) tutabileceði deðeri aþacaðýz. Bunun için sadece typedef'teki keywordü deðiþtirmek yeterli.
+			//typedef long long int counter; -> bu sayede counter deðiþkeninin kullanýldýðý her yerde long long int kullanýlýr.
+
+		}
+*/ 
 
 
 
