@@ -1,10 +1,6 @@
 // code file / implementation file
 #include "C:\Users\Liver\Documents\GitHub\Cnotes\nUtility.h"
-#include <Windows.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <stdio.h> 
+
 #define _CRT_SECURE_NO_WARNINGS
 #define SIZE 10
 // bu modül bir hizmet veriyor ama verirkende ayný zamanda stdio.h tan ve windows.h tan hizmet alýyor.
@@ -27,7 +23,7 @@ int isprime(int number)
 	if (number % 3 == 0) return number == 3;
 	if (number % 5 == 0) return number == 5;
 
-	for (int i = 7; i * i <= number; i += 2)
+	for (size_t i = 7; i * i <= number; i += 2)
 	{
 		if (number % i == 0)
 			return 0;
@@ -92,21 +88,21 @@ int isleap(int y)
 
 void print_triangle(int x)
 {
-	for (int i = 0; i < x; ++i) {
+	for (size_t i = 0; i < x; ++i) {
 		for (int k = 0; k <= i; ++k)
 			printf("*");
 		printf("\n");
 	}
 }
 
-void set_array_random(int* p, int size)
+void set_array_random(int* p, size_t size)
 {
 	while (size--)
 		*p++ = rand() % 1000;
 }
-void print_array(const int* p, int size)
+void print_array(const int* p, size_t size)
 {
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		if (i && i % 20 == 20)
 			printf(" \n");
@@ -126,7 +122,7 @@ int* create_array(int n) // kursun ikinci yarýsýnda öðrenilecek
 	return pd;
 
 }
-void sort_array(int* p, int size)
+void sort_array(int* p, size_t size)
 {
 	qsort(p, size, sizeof(*p), icmp);
 }
@@ -151,7 +147,7 @@ void swap(int* a, int* b)
 	*b = temp;
 }
 
-void reverseArray(int* p, int size)
+void reverseArray(int* p, size_t size)
 {
 	int* pe = p + size;
 
@@ -159,10 +155,10 @@ void reverseArray(int* p, int size)
 		swap(p++, pe--);
 	
 }
-int* get_array_min(const int* p, int size)
+int* get_array_min(const int* p, size_t size)
 {
 	const int* pmin = p;
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		if (*pmin > *(p + i))
 			pmin = (p + i); // veya pmin = &p[i];
@@ -171,7 +167,7 @@ int* get_array_min(const int* p, int size)
 	return (int*)pmin; // bu casting daha sonra açýklanacak.
 }
 
-int* get_array_max(const int* p, int size)
+int* get_array_max(const int* p, size_t size)
 {
 	const int* pmax = p;
 
@@ -184,9 +180,9 @@ int* get_array_max(const int* p, int size)
 	return (int*)pmax; // buradaki cast daha sonra anlatýlacakmýþ.
 }
 
-void selection_sort(int* p, int size)
+void selection_sort(int* p, size_t size)
 {
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		swap(get_array_min(p + i, size - i), p + i);
 	}
