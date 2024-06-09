@@ -1,6 +1,7 @@
-#pragma once
+	#pragma once
 // <string.h>
 #include <stddef.h>
+#include <string.h>
 
 
 size_t my_strlen(const char* p) {
@@ -47,3 +48,48 @@ char* my_strrchr(const char* p, int c)
 	return (char*)pfound;
 
 }
+
+char* my_strcpy(char* pdest, const char* psource)
+{
+	char* ptemp = pdest; // hedefin adresini geri döndüreceðimiz için ptemp deðiþkeninde adresi tutuyoruz.
+	// çünkü while içerisindeki ifade'de pdest'in adresi deðiþecek.
+	while (*pdest++ = *psource++) // Burada kaynaktan hedefe doðru kopyalama yapýlýr. Kaynaktan null karakter geldiðinde ve
+		;						//atama operatörü ile zero deðer pdest'e atanýr ve ifade zero olacaðý için
+										// döngüden çýkýlýr ve hedef deðiþkenin adresi döndürülür.
+	return ptemp;
+}
+
+char* my_strcpy2(char* pdest, const char* psource)
+{
+	char* ptemp = pdest;
+	while (*psource) {
+		*pdest++ = *psource++;
+	}
+	*pdest = '\0'; // burada null karakteri ekliyoruz bunun sebebi sequence point. *psource++ null karakteri geldiðinde döngüden
+	return ptemp;		// çýkmasýna sebep olacaðýndan dolayý null karakterini eklemeyecek. Bizde manuel olarak ekliyoruz
+}
+
+char* my_strcat(char* p1, const char* p2)
+{
+	char* ptemp = p1;
+
+	while (*p1)
+		++p1; // burada kopyalama iþlemi yapýlacak yazýnýn null karakterini bulduk. Ve null karakteri dahil olmak üzere birleþtirmeye baþlayacaðýz.
+
+	while (*p1++ = *p2++) // null karakterinin olduðu indexten itibaren yazý yapýþtýrma iþi yapýlýyor.
+		;
+	return ptemp;
+}
+
+char* mystrcat(char* p1, const char* p2)
+{
+	strcpy(p1 + strlen(p1), p2);
+	return p1;
+}
+
+char* mystr_cat(char* p1, const char* p2) {
+
+	strcpy(strchr(p1, '\0'), p2);
+	return p1;
+}
+
