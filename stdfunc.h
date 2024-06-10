@@ -57,7 +57,7 @@ char* my_strcpy(char* pdest, const char* psource)
 		;						//atama operatörü ile zero deðer pdest'e atanýr ve ifade zero olacaðý için
 										// döngüden çýkýlýr ve hedef deðiþkenin adresi döndürülür.
 	return ptemp;
-}
+} 
 
 char* my_strcpy2(char* pdest, const char* psource)
 {
@@ -93,3 +93,14 @@ char* mystr_cat(char* p1, const char* p2) {
 	return p1;
 }
 
+int my_strcmp(const char* p1, const char* p2)
+{
+	while (*p1 == *p2) {
+		if (*p1 == '\0') // eper *p1 NULL ise *p2'de null karakterdir. Çünkü while döngüsüne girerken ikisi de eþit olduðu için girdi.
+			return 0;		// eðer farklý ise döngüden çýkacak zaten
+		++p1;
+		++p2;
+	}
+
+	return *p1 - *p2; // eðer *p1 büyükse pozitif, p2 büyükse negatif döndürecek. const char türünden 2 deðiþken iþleme giriyor.
+	// integral promotiondan dolayý iþlem int türünde yapýlýr.
