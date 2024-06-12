@@ -104,3 +104,33 @@ int my_strcmp(const char* p1, const char* p2)
 
 	return *p1 - *p2; // eðer *p1 büyükse pozitif, p2 büyükse negatif döndürecek. const char türünden 2 deðiþken iþleme giriyor.
 	// integral promotiondan dolayý iþlem int türünde yapýlýr.
+}
+
+char* my_strpbrk(const char* p1, const char* p2) {
+	while (*p1) {
+		if (strchr(p2, *p1))
+			return (char*)*p1;
+		++p1;
+	}
+	return NULL;
+}
+
+char* my_strstr(const char* pdest, const char* psrc)
+{
+	if (!*psrc)
+		return (char*)pdest;
+	const char* ptemp = pdest;
+	const char* const key = psrc;
+	while (*pdest++ && *psrc)
+	{
+		if (*pdest == *psrc) {
+			psrc++;
+			ptemp = pdest;
+		}
+		else
+			psrc = key;
+	}
+	if (!*psrc)
+		return (char*)ptemp - strlen(key) + 1;
+	return NULL;
+}
