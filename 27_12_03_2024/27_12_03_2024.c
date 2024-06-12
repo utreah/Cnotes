@@ -199,7 +199,7 @@ Neden VOID türüne cast edeyim?
 		-Oluþturduðunuz algoritmanýn karmaþýklýðý ne?, o(n2) ise nasýl o(n) olabilir onu düþün
 	// seed degeri 14012021. Algoritma karmaþýklýðý best case O(n)
 	// O(n2) de kabul.
-	// 
+	
 	test kodu:
 	#include <nUtility.h>
 	#include <stdio.h>
