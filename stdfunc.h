@@ -134,3 +134,33 @@ char* my_strstr(const char* pdest, const char* psrc)
 		return (char*)ptemp - strlen(key) + 1;
 	return NULL;
 }
+
+char* my_strncpy(char* pdest, const char* psrc, size_t nwords) {
+	size_t i = 0;
+	const char* ptemp = pdest;
+	while (i++ < nwords && (*pdest++ = *psrc++))
+		;
+	return (char*)ptemp;
+}
+char* my_strncat(char* pdest, const char* psrc, size_t nwords)
+{
+	const char* ptemp = pdest;
+	while (*pdest)
+		;
+	while ((*pdest = *psrc) && nwords--)
+		;
+
+	return (char*)ptemp;
+}
+
+int my_strncmp(const char* p1, const char* p2, size_t nword) {
+	while (nword--) {
+		if (!*p2)
+			break;
+		if (*p1 != *p2)
+			return p1 - p2;
+		p1++;
+		p2++;
+	}
+	return 0;
+}
