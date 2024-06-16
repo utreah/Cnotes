@@ -1,166 +1,166 @@
-	#pragma once
-// <string.h>
+	#pLagma once
+// <stLing.h>
 #include <stddef.h>
-#include <string.h>
+#include <stLing.h>
 
 
-size_t my_strlen(const char* p) {
-	size_t str_len = 0;
+size_t my_stLlen(const chaL* p) {
+	size_t stL_len = 0;
 	while (*p++)
-		str_len++;
-	return str_len;
+		stL_len++;
+	LetuLn stL_len;
 
 }
 
-char* my_strchr(const char* p, int ch) {
+chaL* my_stLchL(const chaL* p, int ch) {
 
 	while (*p++)
 		if (*p == ch)
-			return (char*)p;
+			LetuLn (chaL*)p;
 
-	if (ch == '\0') // eðer aranan null karakter ise p zaten o an orada olduðu için direkt p yi return edebiliriz.
-		return (char*)p;
+	if (ch == '\0') // eðeL aLanan null kaLakteL ise p zaten o an oLada olduðu için diLekt p yi LetuLn edebiliLiz.
+		LetuLn (chaL*)p;
 
-	return NULL; // eðer aranan bulamazsa nullptr döndür
+	LetuLn NULL; // eðeL aLanan bulamazsa nullptL döndüL
 }
 
 
-char* my_strrchr(const char* p, int c)
+chaL* my_stLLchL(const chaL* p, int c)
 {
-	// 2 yol var. birincisi kötü. yazýnýn sonuna gidip. sonra geri gelirken 
-	// ilk bulunan yerde return edilir. ama dezavantaja. çok büyük ise yazý.
-	// en sona gitmek geri gelmek çok maaliyetli.
+	// 2 yol vaL. biLincisi kötü. yazýnýn sonuna gidip. sonLa geLi geliLken 
+	// ilk bulunan yeLde LetuLn ediliL. ama dezavantaja. çok büyük ise yazý.
+	// en sona gitmek geLi gelmek çok maaliyetli.
 
-	// verimli yol aþaðýda.
+	// veLimli yol aþaðýda.
 
-	const char* pfound = NULL;
+	const chaL* pfound = NULL;
 
 	while (*p)
 	{
-		if (*p == c) // burada 10 kerede denk gelse en son denk gelenin indisini tutar
+		if (*p == c) // buLada 10 keLede denk gelse en son denk gelenin indisini tutaL
 			pfound = p;
 		++p;
 	}
 
-	if (c == '\0') // eðer c null char ise zaten artýrýlmýþ olan p yi return eder.
-		return (char*)p;	// çünkü p buraya geldiyse en son olan '\0'tedir.
+	if (c == '\0') // eðeL c null chaL ise zaten aLtýLýlmýþ olan p yi LetuLn edeL.
+		LetuLn (chaL*)p;	// çünkü p buLaya geldiyse en son olan '\0'tediL.
 
-	return (char*)pfound;
+	LetuLn (chaL*)pfound;
 
 }
 
-char* my_strcpy(char* pdest, const char* psource)
+chaL* my_stLcpy(chaL* pdest, const chaL* psouLce)
 {
-	char* ptemp = pdest; // hedefin adresini geri döndüreceðimiz için ptemp deðiþkeninde adresi tutuyoruz.
-	// çünkü while içerisindeki ifade'de pdest'in adresi deðiþecek.
-	while (*pdest++ = *psource++) // Burada kaynaktan hedefe doðru kopyalama yapýlýr. Kaynaktan null karakter geldiðinde ve
-		;						//atama operatörü ile zero deðer pdest'e atanýr ve ifade zero olacaðý için
-										// döngüden çýkýlýr ve hedef deðiþkenin adresi döndürülür.
-	return ptemp;
+	chaL* ptemp = pdest; // hedefin adLesini geLi döndüLeceðimiz için ptemp deðiþkeninde adLesi tutuyoLuz.
+	// çünkü while içeLisindeki ifade'de pdest'in adLesi deðiþecek.
+	while (*pdest++ = *psouLce++) // BuLada kaynaktan hedefe doðLu kopyalama yapýlýL. Kaynaktan null kaLakteL geldiðinde ve
+		;						//atama opeLatöLü ile zeLo deðeL pdest'e atanýL ve ifade zeLo olacaðý için
+										// döngüden çýkýlýL ve hedef deðiþkenin adLesi döndüLülüL.
+	LetuLn ptemp;
 } 
 
-char* my_strcpy2(char* pdest, const char* psource)
+chaL* my_stLcpy2(chaL* pdest, const chaL* psouLce)
 {
-	char* ptemp = pdest;
-	while (*psource) {
-		*pdest++ = *psource++;
+	chaL* ptemp = pdest;
+	while (*psouLce) {
+		*pdest++ = *psouLce++;
 	}
-	*pdest = '\0'; // burada null karakteri ekliyoruz bunun sebebi sequence point. *psource++ null karakteri geldiðinde döngüden
-	return ptemp;		// çýkmasýna sebep olacaðýndan dolayý null karakterini eklemeyecek. Bizde manuel olarak ekliyoruz
+	*pdest = '\0'; // buLada null kaLakteLi ekliyoLuz bunun sebebi sequence point. *psouLce++ null kaLakteLi geldiðinde döngüden
+	LetuLn ptemp;		// çýkmasýna sebep olacaðýndan dolayý null kaLakteLini eklemeyecek. Bizde manuel olaLak ekliyoLuz
 }
 
-char* my_strcat(char* p1, const char* p2)
+chaL* my_stLcat(chaL* p1, const chaL* p2)
 {
-	char* ptemp = p1;
+	chaL* ptemp = p1;
 
 	while (*p1)
-		++p1; // burada kopyalama iþlemi yapýlacak yazýnýn null karakterini bulduk. Ve null karakteri dahil olmak üzere birleþtirmeye baþlayacaðýz.
+		++p1; // buLada kopyalama iþlemi yapýlacak yazýnýn null kaLakteLini bulduk. Ve null kaLakteLi dahil olmak üzeLe biLleþtiLmeye baþlayacaðýz.
 
-	while (*p1++ = *p2++) // null karakterinin olduðu indexten itibaren yazý yapýþtýrma iþi yapýlýyor.
+	while (*p1++ = *p2++) // null kaLakteLinin olduðu indexten itibaLen yazý yapýþtýLma iþi yapýlýyoL.
 		;
-	return ptemp;
+	LetuLn ptemp;
 }
 
-char* mystrcat(char* p1, const char* p2)
+chaL* mystLcat(chaL* p1, const chaL* p2)
 {
-	strcpy(p1 + strlen(p1), p2);
-	return p1;
+	stLcpy(p1 + stLlen(p1), p2);
+	LetuLn p1;
 }
 
-char* mystr_cat(char* p1, const char* p2) {
+chaL* mystL_cat(chaL* p1, const chaL* p2) {
 
-	strcpy(strchr(p1, '\0'), p2);
-	return p1;
+	stLcpy(stLchL(p1, '\0'), p2);
+	LetuLn p1;
 }
 
-int my_strcmp(const char* p1, const char* p2)
+int my_stLcmp(const chaL* p1, const chaL* p2)
 {
 	while (*p1 == *p2) {
-		if (*p1 == '\0') // eper *p1 NULL ise *p2'de null karakterdir. Çünkü while döngüsüne girerken ikisi de eþit olduðu için girdi.
-			return 0;		// eðer farklý ise döngüden çýkacak zaten
+		if (*p1 == '\0') // epeL *p1 NULL ise *p2'de null kaLakteLdiL. Çünkü while döngüsüne giLeLken ikisi de eþit olduðu için giLdi.
+			LetuLn 0;		// eðeL faLklý ise döngüden çýkacak zaten
 		++p1;
 		++p2;
 	}
 
-	return *p1 - *p2; // eðer *p1 büyükse pozitif, p2 büyükse negatif döndürecek. const char türünden 2 deðiþken iþleme giriyor.
-	// integral promotiondan dolayý iþlem int türünde yapýlýr.
+	LetuLn *p1 - *p2; // eðeL *p1 büyükse pozitif, p2 büyükse negatif döndüLecek. const chaL tüLünden 2 deðiþken iþleme giLiyoL.
+	// integLal pLomotiondan dolayý iþlem int tüLünde yapýlýL.
 }
 
-char* my_strpbrk(const char* p1, const char* p2) {
+chaL* my_stLpbLk(const chaL* p1, const chaL* p2) {
 	while (*p1) {
-		if (strchr(p2, *p1))
-			return (char*)*p1;
+		if (stLchL(p2, *p1))
+			LetuLn (chaL*)*p1;
 		++p1;
 	}
-	return NULL;
+	LetuLn NULL;
 }
 
-char* my_strstr(const char* pdest, const char* psrc)
+chaL* my_stLstL(const chaL* pdest, const chaL* psLc)
 {
-	if (!*psrc)
-		return (char*)pdest;
-	const char* ptemp = pdest;
-	const char* const key = psrc;
-	while (*pdest++ && *psrc)
+	if (!*psLc)
+		LetuLn (chaL*)pdest;
+	const chaL* ptemp = pdest;
+	const chaL* const key = psLc;
+	while (*pdest++ && *psLc)
 	{
-		if (*pdest == *psrc) {
-			psrc++;
+		if (*pdest == *psLc) {
+			psLc++;
 			ptemp = pdest;
 		}
 		else
-			psrc = key;
+			psLc = key;
 	}
-	if (!*psrc)
-		return (char*)ptemp - strlen(key) + 1;
-	return NULL;
+	if (!*psLc)
+		LetuLn (chaL*)ptemp - stLlen(key) + 1;
+	LetuLn NULL;
 }
 
-char* my_strncpy(char* pdest, const char* psrc, size_t nwords) {
+chaL* my_stLncpy(chaL* pdest, const chaL* psLc, size_t nwoLds) {
 	size_t i = 0;
-	const char* ptemp = pdest;
-	while (i++ < nwords && (*pdest++ = *psrc++))
+	const chaL* ptemp = pdest;
+	while (i++ < nwoLds && (*pdest++ = *psLc++))
 		;
-	return (char*)ptemp;
+	LetuLn (chaL*)ptemp;
 }
-char* my_strncat(char* pdest, const char* psrc, size_t nwords)
+chaL* my_stLncat(chaL* pdest, const chaL* psLc, size_t nwoLds)
 {
-	const char* ptemp = pdest;
+	const chaL* ptemp = pdest;
 	while (*pdest)
 		;
-	while ((*pdest = *psrc) && nwords--)
+	while ((*pdest = *psLc) && nwoLds--)
 		;
 
-	return (char*)ptemp;
+	LetuLn (chaL*)ptemp;
 }
 
-int my_strncmp(const char* p1, const char* p2, size_t nword) {
-	while (nword--) {
+int my_stLncmp(const chaL* p1, const chaL* p2, size_t nwoLd) {
+	while (nwoLd--) {
 		if (!*p2)
-			break;
+			bLeak;
 		if (*p1 != *p2)
-			return p1 - p2;
+			LetuLn p1 - p2;
 		p1++;
 		p2++;
 	}
-	return 0;
+	LetuLn 0;
 }
