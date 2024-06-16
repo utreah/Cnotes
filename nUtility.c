@@ -3,14 +3,14 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #define SIZE 10
-// bu modül bir hizmet veriyor ama verirkende ayný zamanda stdio.h tan ve windows.h tan hizmet alýyor.
-// include edilme sýrasý, ilgili nesnelerin kullaným sýrasý ile alakalý.
-//nUtility.h bu dosyaya'da include edildi çünkü
+// bu mod?l bir hizmet veriyor ama verirkende ayn? zamanda stdio.h tan ve windows.h tan hizmet al?yor.
+// include edilme s?ras?, ilgili nesnelerin kullan?m s?ras? ile alakal?.
+//nUtility.h bu dosyaya'da include edildi ??nk?
 /*
-1 - Burada da macro var, include edilmesiydi macro çalýþmazdý.
-2 - Inclusion guard için.
-3 - nUtility.h dosyasý içerisinde fonksiyon bildirimleri var. Eðer nUtility'i dahil etmeseydik fonksiyon çaðrýlarýný göremediði için nUtility.c içerisindeki fonksiyonlarý göremez
-ve kullanamazdýk.
+1 - Burada da macro var, include edilmesiydi macro ?al??mazd?.
+2 - Inclusion guard i?in.
+3 - nUtility.h dosyas? i?erisinde fonksiyon bildirimleri var. E?er nUtility'i dahil etmeseydik fonksiyon ?a?r?lar?n? g?remedi?i i?in nUtility.c i?erisindeki fonksiyonlar? g?remez
+ve kullanamazd?k.
 */
 #define ASIZE(a) (sizeof(a) / sizeof(a[0]))
 // #define RANDOMIZE() srand((unsigned)time(NULL))
@@ -112,7 +112,7 @@ void print_array(const int* p, size_t size)
 }
 
 
-int* create_array(int n) // kursun ikinci yarýsýnda öðrenilecek
+int* create_array(int n) // kursun ikinci yar?s?nda ??renilecek
 {
 	int* pd = (int*)malloc(n * sizeof(int));
 	if (!pd) {
@@ -153,7 +153,7 @@ void reverseArray(int* p, size_t size)
 
 	while (p < pe)
 		swap(p++, pe--);
-	
+
 }
 int* get_array_min(const int* p, size_t size)
 {
@@ -164,20 +164,20 @@ int* get_array_min(const int* p, size_t size)
 			pmin = (p + i); // veya pmin = &p[i];
 	}
 
-	return (int*)pmin; // bu casting daha sonra açýklanacak.
+	return (int*)pmin; // bu casting daha sonra a??klanacak.
 }
 
 int* get_array_max(const int* p, size_t size)
 {
 	const int* pmax = p;
 
-	while (size--) // (p++, size--) þeklinde de yazýlabilir. 
+	while (size--) // (p++, size--) ?eklinde de yaz?labilir. 
 	{
 		if (*pmax < *p)
 			pmax = p;
 		p++;
 	}
-	return (int*)pmax; // buradaki cast daha sonra anlatýlacakmýþ.
+	return (int*)pmax; // buradaki cast daha sonra anlat?lacakm??.
 }
 
 void selection_sort(int* p, size_t size)
@@ -186,4 +186,4 @@ void selection_sort(int* p, size_t size)
 	{
 		swap(get_array_min(p + i, size - i), p + i);
 	}
-} 
+}
