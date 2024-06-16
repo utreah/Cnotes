@@ -1,4 +1,4 @@
-﻿#include <stdio>
+﻿#include <stdio.h>
 #define SIZE 20
 int find_max(int* a)
 {
