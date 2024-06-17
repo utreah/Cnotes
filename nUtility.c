@@ -3,14 +3,14 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #define SIZE 10
-// bu mod?l bir hizmet veriyor ama verirkende ayn? zamanda stdio.h tan ve windows.h tan hizmet al?yor.
-// include edilme s?ras?, ilgili nesnelerin kullan?m s?ras? ile alakal?.
-//nUtility.h bu dosyaya'da include edildi ??nk?
+// bu modül bir hizmet veriyor ama verirkende ayný zamanda stdio.h tan ve windows.h tan hizmet alýyor.
+// include edilme sýrasý, ilgili nesnelerin kullaným sýras?ý ile alakalý.
+//nUtility.h bu dosyaya'da include edildi çünkü
 /*
-1 - Burada da macro var, include edilmesiydi macro ?al??mazd?.
-2 - Inclusion guard i?in.
-3 - nUtility.h dosyas? i?erisinde fonksiyon bildirimleri var. E?er nUtility'i dahil etmeseydik fonksiyon ?a?r?lar?n? g?remedi?i i?in nUtility.c i?erisindeki fonksiyonlar? g?remez
-ve kullanamazd?k.
+1 - Burada da macro var, include edilmesiydi macro çalýþmazdý.
+2 - Inclusion guard için.
+3 - nUtility.h dosyasý i?erisinde fonksiyon bildirimleri var. Eðer nUtility'i dahil etmeseydik fonksiyon çaðrýlarýný 
+göremediði için nUtility.c içerisindeki fonksiyonlarý göremez ve kullanamazdýk.
 */
 #define ASIZE(a) (sizeof(a) / sizeof(a[0]))
 // #define RANDOMIZE() srand((unsigned)time(NULL))
@@ -112,7 +112,7 @@ void print_array(const int* p, size_t size)
 }
 
 
-int* create_array(int n) // kursun ikinci yar?s?nda ??renilecek
+int* create_array(int n) // kursun ikinci yarýsýnda öðrenilecek
 {
 	int* pd = (int*)malloc(n * sizeof(int));
 	if (!pd) {
@@ -164,20 +164,20 @@ int* get_array_min(const int* p, size_t size)
 			pmin = (p + i); // veya pmin = &p[i];
 	}
 
-	return (int*)pmin; // bu casting daha sonra a??klanacak.
+	return (int*)pmin; // bu casting daha sonra açýklanacak.
 }
 
 int* get_array_max(const int* p, size_t size)
 {
 	const int* pmax = p;
 
-	while (size--) // (p++, size--) ?eklinde de yaz?labilir. 
+	while (size--) // (p++, size--) þeklinde de yazýlabilir. 
 	{
 		if (*pmax < *p)
 			pmax = p;
 		p++;
 	}
-	return (int*)pmax; // buradaki cast daha sonra anlat?lacakm??.
+	return (int*)pmax; // buradaki cast daha sonra anlatýlacakmýþ.
 }
 
 void selection_sort(int* p, size_t size)
@@ -186,4 +186,18 @@ void selection_sort(int* p, size_t size)
 	{
 		swap(get_array_min(p + i, size - i), p + i);
 	}
+}
+
+void gswap(void* vp1, void* vp2, size_t size) { // ilk generic fonksiyon
+	char* p1 = (char*)vp1;
+	char* p2 = vp2;
+	// Yukarýdaki iki atama iþleminde de C dilinde sýkýntý yok. Line 122'deki ifade de implicit
+		// type conversion olduðu için çalýþýr. Ama okuyan kiþinin iþini kolaylaþtýrmak için
+			// C dilinde char* türüne cast edebiliriz. CPP'de zorunluyuz diðer türlü sentaks hatasý.
+	while (size--) {
+		char temp = *p1;
+		*p1++ = *p2;
+		*p2++ = temp;
+	}
+
 }

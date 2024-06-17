@@ -23,4 +23,5 @@ void reverseArray(int* p, size_t size);
 int* get_array_max(const int* p, size_t size);
 int* get_array_min(const int* p, size_t size);
 void selection_sort(int* p, size_t size);
+void gswap(void* vp1, void* vp2, size_t size);
 #endif
