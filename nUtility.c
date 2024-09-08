@@ -190,7 +190,7 @@ void selection_sort(int* p, size_t size)
 
 void gswap(void* vp1, void* vp2, size_t size) { // ilk generic fonksiyon
 	char* p1 = (char*)vp1;
-	char* p2 = vp2;
+	char* p2 = (char*)vp2;	
 	// Yukarýdaki iki atama iþleminde de C dilinde sýkýntý yok. Line 122'deki ifade de implicit
 		// type conversion olduðu için çalýþýr. Ama okuyan kiþinin iþini kolaylaþtýrmak için
 			// C dilinde char* türüne cast edebiliriz. CPP'de zorunluyuz diðer türlü sentaks hatasý.
