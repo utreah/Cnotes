@@ -211,7 +211,7 @@ void foobar(struct Data param) { ; }
 struct Point {
 	double x, y;
 
-};
+};;
 struct struct_members {
 	int x, y; // tam sayı olabilir
 	int* xptr, yptr; // pointer türünden olabilir
