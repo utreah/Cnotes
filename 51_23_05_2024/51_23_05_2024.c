@@ -509,9 +509,9 @@ void foo(Student s) {
 
 // Bu tarz iþlemler için daha çok pointer kullanýlýyor. Pointerlarýn tüm türlerinin sizeof deðeri 4 (derleyiciye göre deðiþebilir)
 	// Pointer kullanmak maaliyet açýsýndan daha ucuz
-void bar(Student* x) { // Student* olarak yazdýk çünkü yukarýda type-alias var. Olmasaydý struct Student* þeklinde olacaktý. Call by reference
+void bar(const Student* x) { // Student* olarak yazdýk çünkü yukarýda type-alias var. Olmasaydý struct Student* þeklinde olacaktý. Call by reference
 	printf("Student No : %d\n", x->no); // Burada eriþim, isim üzerinden deðil de adres üzerinden olduðu için arrow operator kullanýyoruz.
-	printf("Student No : %s\n", x->name);
+	printf("Student No : %s\n", x->name); // dizinin parametresi const çünkü bu bir accessor fonksiyon.
 	printf("Student No : %s\n", x->surname);
 	printf("Student No : %.2f\n", x->mean);
 	printf("--------------------------------");
@@ -519,10 +519,56 @@ void bar(Student* x) { // Student* olarak yazdýk çünkü yukarýda type-alias var. 
 void baz(const Student* x) {
 
 } // baz bir accessor. Parametre const olduðu için sadece okuma yapýlabilir deðiþiklik yapýlamaz.	
+
+void set_student(Student* s){ // adresini aldýðý Student* yapý türünden olan deðiþkene atama yapar.
+	s->no = 1881;
+	s->name = "Mustafa";
+	s->surname = "Kemal";
+	s->mean = 97.23;
+}
+
 int main(void) {
 	Student s1 = { .no = 6236, .name = "Engin", .surname = "Kendarli", .mean = 98.72 };
 	foo(s1);
 	Student* s1ptr = &s1;
 	bar(s1ptr); // veya bar(&s1);
 }
-2:23
+
+/*-------------------------------------------*/
+// Fonksiyonun parametresi pointer ise, fakat fonksiyonun varlýk nedeni aldýðý adresteki nesneyi bir deðerle donatmak ise 
+	// öyle parametrele out parameter denir.
+	
+typedef struct Matrix{
+	int row;
+	int col;
+	int ar[20][20];
+	double d1;
+	double d2;
+}Matrix;
+//				input			  input				output
+void add_matrix(const Matrix* p1, const Matrix* p2, Matrix* presult); // p1 ve p2 üzerinde deðiþiklik yapýlmayacaðý için const olmalarý gerek. presult burada 'out parameter'
+
+int main(void){
+	Matrix m1, m2;
+	Matrix m3;
+	
+	add_matrix(&m1, &m2, &m3);
+}
+// Eðer bir yapý türünden nesnenin adresini kullanarak, o yapý türündeki memberlara eriþerek deðer atamasý/yüklemesi
+	// yapan bir fonksiyon varsa, bunun parametrelerine in-out parameter denir.
+	
+void do_something(Matrix *ptr); 
+int main(void){
+	Matrix mymatrix;
+	mymatrix.d1 = 3.6;
+	mymatrix.d1 = 3.6;
+	do_something(&mydata); // burada mydata'nýn adresini gönderdik. d1 ve d2nin deðerleri atanmýþ durumda.
+							// Diðer memberlara deðer atanmadýðý için deðerleri 0 olarak hayata baþladýlar.
+								// do_something fonksiyonunda bunlara deðer verilebilir. Eðer bir parametre in-out parametre ise 
+									// çöp deðer gönderilmesi TANIMSIZ DAVRANIÞtýr.
+									
+	/* DÝKKAT
+	Eðer bir parametre in-out parametre ise 
+		çöp deðer gönderilmesi TANIMSIZ DAVRANIÞtýr.
+	*/
+};
