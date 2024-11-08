@@ -1,0 +1,65 @@
+#include "Date.h"
+
+int main(void) {
+	Date dx;
+
+	set_date(&dx, 13, 05, 2001);
+	print_date(&dx);
+	set_today(&dx);
+	print_date(&dx);
+	set_date_from_str(&dx, "03-07-2023");
+
+	printf("Bir tarih girin: ");
+	scan_date(&dx);
+	print_date(&dx);
+
+	for (int i = 0; i < 100; i++) {
+		Date dy;
+		set_random_date(&dy);
+		print_date(&dy);
+	}
+	
+}
+
+
+#include "Date.h"
+
+int main(void) {
+	Date mydate;
+	set_date(&mydate, 13, 05, 1231);
+	print_date(&mydate);
+	
+	set_month(&mydate, 1);
+	print_date(&mydate);
+
+	set_month_day(&mydate, 22);
+	print_date(&mydate);
+	
+	set_year(&mydate, 1255);
+	print_date(&mydate);
+
+
+}
+
+
+
+
+#include "Date.h"
+
+int main(void) {
+	Date mydate;
+	for (int i = 0; i < 10; i++) {
+		date_increment(&mydate, 50);
+		print_date(&mydate);
+		(void)getchar();
+	}
+	
+	
+	for (int i = 0; i < 10; i++) {
+		date_decrement(&mydate, 50);
+		print_date(&mydate);
+		(void)getchar();
+	}
+
+
+}
