@@ -18,7 +18,7 @@ typedef struct Date {
 	2-	Input-output functions
 
 	3- Accessor Functions: Bu fonksiyonlar yapýnýn gerekli elemanlarýna eriþerek istenen bilgiyi elde ediyor. Deðiþiklik, atama vs
-		yapamadýklarý için 
+		yapamadýklarý için const keywordü ile read-only olarak eriþiyorlar.
 */
 // Set functions
 Date* set_date(Date*, int d, int m, int y); // adresini aldýðý Date* türünden yapý türüne Day, Month ve Year atamalarýný yapýyor.
@@ -44,4 +44,4 @@ void print_date(const Date*);
 Date* scan_date(Date*);
 
 #endif
-33:00
+33:00 
