@@ -1,0 +1,175 @@
+#include "Date.h"
+
+int main(void) { 
+	Date dx;
+
+	set_date(&dx, 13, 05, 2001);
+	print_date(&dx);
+	set_today(&dx);
+	print_date(&dx);
+	set_date_from_str(&dx, "03-07-2023");
+
+	printf("Bir tarih girin: ");
+	scan_date(&dx);
+	print_date(&dx);
+
+	for (int i = 0; i < 100; i++) {
+		Date dy;
+		set_random_date(&dy);
+		print_date(&dy);
+	}
+	
+} // Test kodu Çalýþtý 
+
+
+#include "Date.h"
+
+int main(void) {
+	Date mydate;
+	set_date(&mydate, 13, 05, 1231);
+	print_date(&mydate);
+	
+	set_month(&mydate, 1);
+	print_date(&mydate);
+
+	set_month_day(&mydate, 22);
+	print_date(&mydate);
+	
+	set_year(&mydate, 1255);
+	print_date(&mydate);
+
+} // yearbase 1900 olduðu için geçersiz tarih hatasý veriyor. Eðer set_date fonksiyonundaki yýlý 1900 yaparsak çalýþýyor, tabi set_year > YEARBASE olmalý.
+
+
+
+
+#include "Date.h"
+#include <stdio.h>
+int main(void) {
+	Date mydate;
+	for (int i = 0; i < 10; i++) {
+		date_increment(&mydate, 50);
+		print_date(&mydate);
+		(void)getchar();
+	}
+
+
+	for (int i = 0; i < 10; i++) {
+		date_decrement(&mydate, 50);
+		print_date(&mydate);
+		(void)getchar();
+	}
+}
+
+#include "Date.h"
+
+int main(void) {
+	Date mydate;
+	set_today(&mydate);
+	printf("yil = %d", year(&mydate));
+	printf("Ay = %d", month(&mydate));
+	printf("Gun = %d", month_day(&mydate));
+	printf("Haftanin %d. gunu", week_day(&mydate) + 1); // pazar -> 0. gün yani ilk gün kabul ediliyor 
+	printf("Yilin %d. gunu", year_day(&mydate)); // pazar -> 0. gün yani ilk gün kabul ediliyor 
+}
+
+void set_date_array_random(Date* p, size_t size) {
+	while (size--)
+		set_random_date(p++);
+}
+void print_date_array(const Date* p, size_t size) {
+	while (size--)
+		print_date(p++);
+}
+static int dcmp(const void* vp1, const void* vp2) {
+	return cmp_date((const Date*)vp1, (const Date*)vp2);
+}
+void sort_date_array(Date* p, size_t size) {
+	qsort(p, size, sizeof(Date), &dcmp);
+}
+int main(void) {
+	size_t n;
+	printf("Kac tarih: ");
+	(void)scanf("%zu", &n);
+
+	Date* datemalloc = (Date*)malloc(sizeof(Date) * n);
+	if (!datemalloc)
+		fprintf(stderr, "Bellek yetersiz");
+
+	set_date_array_random(datemalloc, n);
+	clock_t clStart = clock();
+	sort_date_array(datemalloc, n);
+	clock_t clEnd = clock();
+	printf("%f Saniye surdu\n", (double)(clEnd - clStart) / CLOCKS_PER_SEC);
+	// clear_input_buffer();
+	(void)getchar(); // buradaki getchar çalýþmýyor çünkü scanf'in býraktýðý '\n' karakterini alýyor ve kod devam ediyor. Bu yüzden önce buffer'ý flush etmemiz gerek.
+		// nUtility.h içerisinde bulunan clear_input_buffer'ý kullanarak bufferý flush edebiliriz.
+	print_date_array(datemalloc, n);
+	free(datemalloc);
+}
+int main(void) {
+
+	Date bday;
+	printf("Dogum tarihinizi girin: ");
+	scan_date(&bday);
+	printf("Dogum tarihiniz : ");
+	print_date(&bday);
+
+	Date todays_date;
+	set_today(&todays_date);
+
+	printf("Bugun: ");
+	print_date(&todays_date);
+	printf("Bugun hayatinizin %d. gunu ", date_diff(&todays_date, &bday));
+}
+#include "Date.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#pragma warning(disable:4996)
+
+int main(void) {
+	Date today;
+	set_today(&today);
+	print_date(&today);
+	Date future_date;
+
+	for (int i = 1; i < 200000; i *= 10) {
+		printf("Bugünden %d gunden sonrasi ", i);
+		ndays_after(&future_date, &today, i);
+		print_date(&future_date);
+	}
+}
+
+#include "Date.h"
+#include <stdio.h>
+int main(void) {
+	Date today;
+	set_today(&today);
+
+	printf("Yilin %d.gunu ", year_day(&today));
+} // baþarýlý
+
+
+#include "Date.h"
+#include <stdio.h>
+int main(void) {
+
+	Date today;
+	Date future_date;
+	set_today(&today);
+	
+	for (int i = 10; i < 100000; i *= 10) {
+		ndays_after(&future_date, &today, i);
+		printf("Bugunden %d gun sonrasi ", i);
+		print_date(&future_date);
+		(void)getchar();
+	}
+
+	for (int i = 10; i < 100000; i *= 10) {
+		ndays_before(&future_date, &today, i);
+		printf("Bugunden %d gun oncesi ", i);
+		print_date(&future_date);
+		(void)getchar();
+	}
+} // ndays_before ve ndays_after
