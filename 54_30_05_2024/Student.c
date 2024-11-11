@@ -40,5 +40,4 @@ int cmp_student(const Student* s1, const Student* s2) {
 		return cmp_result;
 
 	return s1->m_no - s2->m_no;
-
 }
