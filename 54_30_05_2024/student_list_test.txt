@@ -1,0 +1,65 @@
+#include "stdio.h"
+#include "StudentList.h"
+#include "Student.h"
+#include "nUtility.h"
+int main(void) {
+	Student s;	
+
+	randomize();
+	for (int i = 0; i < 10; i++) {
+		set_random_student(&s);
+		print_student(&s);
+		push_front(&s);
+	}
+	printf("Listede %zu ogrenci var", get_size());
+	print_list();
+	make_empty();
+}
+
+#include "stdio.h"
+#include "StudentList.h"
+#include "Student.h"
+#include "nUtility.h"
+int main(void) {
+	int n;
+
+	printf("Listeye kac ogrenci eklensin? : ");
+	(void)scanf("%d", &n);
+	randomize();
+
+	Student s;
+
+	for (int i = 0; i < n; i++) {
+		set_random_student(&s);
+		push_front(&s);
+	}
+	print_list();
+	printf("Listede %zu ogrenci var", get_size());
+	make_empty();
+}
+
+#include "stdio.h"
+#include "StudentList.h"
+#include "Student.h"
+#include "nUtility.h"
+int main(void) {
+
+	randomize();
+	int n = rand() % 10 + 10;
+
+	Student s;
+
+	for (int i = 0; i < n; i++) {
+		set_random_student(&s);
+		push_front(&s);
+	}
+	Student* p = &s;
+	while (!is_empty()) {
+	printf("Listede %zu ogrenci var\n", get_size());
+		printf("Listedeki ilk ogrenci :\n");
+		print_list();
+		pop_front();
+		(void)getchar();
+		system("cls");
+	}
+}
