@@ -1,0 +1,67 @@
+#include "StudentList.h"
+#include <stdio.h>
+int main(void) {
+	ListHandle failed = create_list(); // sınıfta kalanlar - sınıftan geçenler - içinden geçenler
+	ListHandle passed = create_list();
+	ListHandle honoured = create_list();
+	
+	Student s;
+	randomize();
+	for (int i = 0; i < 10; i++) {
+		set_random_student(&s);
+		push_front(failed, &s);
+	}
+	for (int i = 0; i < 20; i++) {
+		set_random_student(&s);
+		push_front(passed, &s);
+	}
+	for (int i = 0; i < 5; i++) {
+		set_random_student(&s);
+		push_front(honoured, &s);
+	}
+	printf("Sinifi gecenler\n");
+	print_list(passed);
+	printf("Sinifta Kalanlar\n");
+	print_list(failed);
+	printf("Onur ogrencileri\n");
+	print_list(honoured);
+	
+
+	destroy_list(failed);
+	destroy_list(passed);
+	destroy_list(honoured);
+}
+
+#include "StudentList.h"
+#include <stdio.h>
+#define NO_OF_LISTS 1000
+
+void fill_list(ListHandle h) {
+	int n = rand() % 10 + 10;
+	Student s;
+	for (int i = 0; i < n; i++) {
+		set_random_student(&s);
+		push_front(h, &s);
+	}
+}	
+
+int main(void) {
+	ListHandle HandleArr[NO_OF_LISTS];
+	randomize();
+	for (size_t i = 0; i < NO_OF_LISTS; i++) {
+		HandleArr[i] = create_list();
+		fill_list(HandleArr[i]);
+	}
+
+	for (size_t i = 0; i < NO_OF_LISTS; i++) {
+		printf("%zu. Listede %zu adet ogrenci var\n", i + 1, get_size(HandleArr[i]));
+		print_list(HandleArr[i]);
+		(void)getchar();
+		system("cls");
+	}
+
+
+	for (int i = 0; i < NO_OF_LISTS; i++) {
+		destroy_list(HandleArr[i]);
+	}
+}
