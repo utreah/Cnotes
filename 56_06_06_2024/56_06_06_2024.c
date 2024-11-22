@@ -115,31 +115,136 @@ int main(void) {
 #include <stdio.h>
 #include "Date.h"
 #include "nUtility.h"
-
+/*
 typedef struct Employee {
 	int id;
 	char name[40];
 	char address[40];
+
 	int gender;
 
 
-	/*
-	struct MilInfo{ // erkek çalýþanlar için askerlik durumu
-		char place[24];
-		int status;
-		char release_date[20];
-	};
+	
+//	struct MilInfo { // erkek çalýþanlar için askerlik durumu
+//		char place[24];
+//		int status;
+//		char release_date[20];
+//	};
 
-	char maiden_name[20]; // kadýn çalýþanlar için evli ise kýzlýk soyadý
-	*/
-	/*
-		Þimdi yukarýdaki durumda eðer çalýþan erkek ise maiden_name boþa yer kaplýyor.
-			Eðer çalýþan kadýn ise, askerlik bilgisi gereksiz yer kaplýyor. 24 + 20 + sizeof(int) kadar çok yüksek bir maliyet.
-		Bunu union yaparak ayný bellek alanýný kullanarak çözebiliriz.
-	*/
+//	char maiden_name[20]; // kadýn çalýþanlar için evli ise kýzlýk soyadý
+	
+	//	Þimdi yukarýdaki durumda eðer çalýþan erkek ise maiden_name boþa yer kaplýyor.
+	//		Eðer çalýþan kadýn ise, askerlik bilgisi gereksiz yer kaplýyor. 24 + 20 + sizeof(int) kadar çok yüksek bir maliyet.
+	//	Bunu union yaparak ayný bellek alanýný kullanarak çözebiliriz. Zaten bir kiþi hem kadýn hem erkek olamayacaðýna göre
+	//		bazý bilgiler gereksiz olacak. Anonymous union yapýyoruz
+	union{
+		struct MilInfo { // erkek çalýþanlar için askerlik durumu
+			char place[24];
+			int status;
+			char release_date[20];
+		};
+		char maiden_name[20]; 
+		// Eðer erkek ise maiden name kullanýlamayacak, eðer kadýn ise milinfo struct'ý.
+			// Daha önce 156 byte'lýk bir bellek allocate edilirken bu 136ya düþtü.	
+	};
 
 }Employee;
 
 int main(void) {
 	printf("%zu", sizeof(Employee));
 }
+#include <stdint.h>
+
+union Data {
+	uint32_t uval;
+	float f;
+};
+ C'de uval'e deðer verip float deðiþkenini kullanmak UB deðil CPP'de UB
+*/
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+													//						Enumarations(numaralandýrma)						//
+/*
+	Problem domainindeki durumlarý ifade etmek için deðiþkenleri kullanýyoruz. Bunlar deðer alýp o deðeri tutuyor.
+		Ama bazý eþyler var ki bunlar deðer tutmak yerine önceden belirlenmiþ ifadeleri alýyorlar.
+	structures
+	unions
+	enumerations
+
+	içindeki verilerin tamsayý karþýlýklarýný tutuyor.
+	Her dil için verilen destek bu konuda farklý.
+
+	C de bu destek az.
+
+	Bune alternatif olarak macrolarda kullnýlabilir.tabi farklarý üstünlükleri var.
+	#define CLUB	0
+	#define DIAMOND 1
+	#define HEART	2
+	#define SPADE	3
+	1. Dezavantaj: Derleyici bu isimleri bilmiyor. Derleyici açýsýndan bakýldýðýnda bu makrolar (club diamond vs) identifier deðil.
+		Bir scopelarý yok bu yüzden.
+	2. Dezavantaj: makrolarýn bir tür kapsamýnda deðerlendirilmiyor. namelookup gibi kurallarý olmuyor.
+	Enum kullanýlýnca bir tür oluþturmuþ oluyoruz.
+	Mesela, int suit; diye bir nesnemiz var ve bu nesne kartlarýn renklerini tutuyor. Ben bu suit'e;
+	suit = CLUB; diyerek deðer atayabildiðim gibi
+	suit = 31; deðerini de atayabilirim. Hiçbir hata ile karþýlaþmam çünkü suit int bir deðer. enum bunu engelliyor
+*/
+
+// Bir numaralandýrma oluþtururken enum keywordünü kullanýyoruz.
+
+/*
+* //enum tag (opsiyonel)
+	keyword enumaration_tag{
+	// union ve structlarda içerisinde tuttuðu nesnelere 'union' veya 'struct' member deniyordu. enumda ise aþaðýdaki 2 terim kullanýlýyor.
+		enumaration constants;
+		enumarator
+	};
+	NOT: enumaratorler için veri türü belirtmiyoruz.
+
+	enum Suit{Club, Diamond, Hearts, Spade};
+*/
+typedef enum Suit{Club, Diamond, Heart, Spade}Suit;
+/*
+	Kullaným þekli struct ve union ile ayný. enum keywordü kullanýlmasý gerekiyor bir nesne tanýmlarken.
+		keywordü kullanmak istemiyorsak typedef kullanabiliriz.
+*/
+	// CPP'de typedef bildirimi kullanmadan direkt olarak struct, union veya enumaration tagler kullanýlabilir. 
+/*
+enum Color{White, Gray, Red, Blue, Brown, Black};
+	Bu isimler birer tam sayý sabiti. Club, Gray, Heart, Red vs.
+	
+	Peki bu sabitlerin deðerleri ne?
+		Eðer ilave bir sentaks özelliði kullanýlarak deðer verilmedi ise 0'dan baþlayarak deðer alýrlar.
+			Mesela suit enum'ý için 
+						0		1		2	   3		
+			enum Suit{Club, Diamond, Heart, Spade};
+			Color enum'ý içinde ayný durum geçerli
+						0		1	2		3	4		5
+			enum Color{White, Gray, Red, Blue, Brown, Black};
+
+	Kendi deðerimizi de verebiliriz bu enumlara.
+	enum RGB{Red = 365, Green = 512, Blue = 123}; 
+		Sentaks açýsýndan bir kusur yok
+*/
+#include <stdio.h>
+enum Color{White, Gray, Red, Blue, Brown, Black};
+enum Status{On = 500, Off = -1, Standby = 250, Idle}; 
+/*
+	Eðer manuel olarak deðer verilme iþlemi yapýldýysa deðer verilmeyen enumaration constantlar kendinden bir önceki enum'ýn deðerinin
+		bir fazlasýný alýrlar. Status enum'ýnda bulunan Idle'a deðer verilmemesine raðmen kendinden önceki standby'ýn deðeri 250 olduðu
+			deðeri 251 olacak. Eðer eksi olsaydý bir fazlasý olacaktý. -6 için Idle'ýn deðeri -5 olurdu.
+
+	enum hem bir user defined types hem de bir integer types'ýn bir öðesi. Ekrana yazdýrma iþlemi yapacaðýmýz zaman iþaretli int türünün
+		format specifier'ý kullanýlmalý
+*/
+
+int main(void) {
+	White; // 0 deðerinde bu þu an. switch'in case'i olarak kullanýlabilir baya yaygýn. 
+	int a[Gray]; // hata yok çünkü Gray bir constant(sabit)
+	printf("%d %d %d %d %d %d\n", White, Gray, Red, Blue, Brown, Black);
+	printf("%d %d %d %d", On, Off, Standby, Idle);
+}
+// Bütün typedef kurallarý enumda da geçerli.
+1:07
+
+
+
